@@ -68,7 +68,7 @@ for (let i = 0; i <= 100000; i++) {
 }
 console.log('isHappyNum===', isHappyNum)
 console.log('notHappyNum===', notHappyNum)
-console.log('res===', res)
+console.log('res===', res)//692159746
 
 
 
