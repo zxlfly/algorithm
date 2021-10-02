@@ -1,32 +1,24 @@
 <script>
-var lemonadeChange = function(bills) {
-    if(bills.length==0){return false}
-    let five=ten=0
-    for(let i =0;i<bills.length;i++){
-        if(bills[i]==5){
-            five++
-        }else if(bills[i]==10){
-            if(five==0){
-                return false
-            }
-            ten++
-            five--
-        }else{
-            if(five>0){
-                if(ten>0){
-                    ten--
-                    five--
-                }else if(five>=3){
-                    five-=3
-                }else{
-                    return false
-                }
-            }else{
-                return false
+/**
+ * @param {number[]} hours
+ * @return {number}
+ */
+var longestWPI = function (hours) {
+    let arr = [0]
+    for(let i = 0,pre=0;i<hours.length;i++){
+        hours[i]=hours[i]>8?1:-1
+        arr.push(hours[i]+pre)
+        pre=arr[arr.length-1]
+    }
+    let max = 0
+    for(let i = 0;i<arr.length-1;i++){
+        for(let j = i+1;j<arr.length;j++){
+            if(arr[j]-arr[i]>0){
+                max = Math.max(max,j-i)
             }
         }
     }
-    return true
+    return max
 };
-lemonadeChange([5,5,5,10,20])
+longestWPI([9,9,6,0,6,6,9])
 </script>
