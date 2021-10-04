@@ -94,4 +94,7 @@ class Binarytree{
 - 剑指 Offer 54. 二叉搜索树的第k大节点
 - 剑指 Offer 26. 树的子结构
 - 662. 二叉树最大宽度
+  - 满二叉树如果我们把每层节点按顺序编号
+  - root.left=2*root
+  - root.right=2*root+1
 - 968. 监控二叉树
