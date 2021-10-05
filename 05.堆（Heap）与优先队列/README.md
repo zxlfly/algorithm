@@ -14,99 +14,89 @@
 
 ## 优先队列
 堆是优先队列的实现方式
-### js实现一个大顶堆
+### js实现一个堆（下面有些题目使用了力扣集成的堆，但是到了703会出现超时问题，可以使用这个实现方式）
 ```
-class Heap{
-    constructor(data){
-        if(data==null){
-            this.count = 0
-            this.data=[]
-            return
-        }
-        if(Array.isArray(data)){
-            this.data=data||[]
-            this.count = data.length
-            if(data.length>2){
-                for (let i = 0; i < this.data.length; i++) {
-                    this.shift_up(i)
-                }
+class Heap {
+    /**
+    * @param {string} type 堆的类型。默认大顶堆，min为小顶堆
+    */
+    constructor(type) {
+        this.data = []
+        this.count = 0
+        this.comparator = (a, b) => {
+            if (type == 'min') {
+                return a - b < 0
             }
-        }else {
-            return new Error('Please pass in an array')
+            return a - b > 0
         }
     }
-    shift_up(ind){
+    shift_up(index) {
         // 如果父节点值小于当前元素节点值，就交换
-        // 可以使用解构进行交换
-        while(true){
-            if(!ind){return}
-            let c = this.data[ind]
-            // if(this.data[(ind-1)/2]<this.data[ind]){
-            //     let f = this.data[(ind-1)/2]
-            //     this.data[(ind-1)/2] = c
-            //     this.data[ind] = f
-            //     ind = (ind-1)/2
-            // }else if(this.data[(ind-2)/2]<this.data[ind]){
-            //     let f = this.data[(ind-2)/2]
-            //     this.data[(ind-2)/2] = c
-            //     this.data[ind] = f
-            //     ind = (ind-2)/2
+        while (index > 0) {
+            const parentIndex = (index - 1) >> 1;
+            if (this.comparator(this.data[index], this.data[parentIndex])) {
+                this.swap(index, parentIndex);
+                index = parentIndex;
+            } else {
+                break;
+            }
+            // if (this.data[index] > this.data[parentIndex]) {
+            //     this.swap(index, parentIndex);
+            //     index = parentIndex;
+            // } else {
+            //     break;
             // }
-            if(this.data[(ind-1)>>1]<this.data[ind]){
-                let f = this.data[(ind-1)>>1]
-                this.data[(ind-1)>>1] = c
-                this.data[ind] = f
-                ind = (ind-1)>>1
-            }
-            else{
-                return
-            }
         }
     }
-    shift_down(ind){
+    shift_down(index) {
         // 最大子节点下标
-        let n = this.count -1
+        let lastIndex = this.count - 1
         // 是否有子节点
-        while(ind*2+1<=n){
-            // t需要指向大值，初始为ind
-            let t = ind
+        while (index * 2 + 1 <= lastIndex) {
+            let leftIndex = index * 2 + 1
+            let rightIndex = index * 2 + 2
+            // 需要指向大值，初始为ind
+            let findIndex = index
             // 比左子树小，更新为左子树的值
-            if(this.data[t]<this.data[ind*2+1]){
-                t=ind*2+1
+            // if (this.data[findIndex] < this.data[leftIndex]) {
+            //     findIndex = leftIndex
+            // }
+            if (this.comparator(this.data[leftIndex], this.data[findIndex])) {
+                findIndex = leftIndex
             }
             // 对右子树进行判断(先判断是否有右子树)
-            if(ind*2+2<=n&&this.data[t]<this.data[ind*2+2]){
-                t=ind*2+2
+            // if (rightIndex <= lastIndex && this.data[findIndex] < this.data[rightIndex]) {
+            //     findIndex = rightIndex
+            // }
+            if (rightIndex <= lastIndex && this.comparator(this.data[rightIndex], this.data[findIndex])) {
+                findIndex = rightIndex
             }
             // 最大值就是自己
-            if(t==ind){break}
+            if (findIndex == index) { break }
             // 交换
-            let f = this.data[t]
-            let c = this.data[ind]
-            this.data[t] = c
-            this.data[ind] = f
-            ind = t 
+            this.swap(findIndex, index);
+            index = findIndex
         }
     }
-    push(val){
+    push(val) {
         this.data[this.count++] = val
-        this.shift_up(this.count-1)
+        this.shift_up(this.count - 1)
     }
-    pop(){
-        if(this.count==0){return}
+    pop() {
+        if (this.count == 0) { return }
         // 将首尾元素值互换，不删掉可以实现排序
-        let f = this.data[0]
-        let l = this.data[this.count-1]
-        this.data[0] = l
-        this.data[this.count-1] = f
+        this.swap(0, this.count - 1)
         this.count--
         this.shift_down(0)
     }
-    top(){
+    top() {
         return this.data[0]
     }
-    size(){
+    size() {
         return this.count
+    }
+    swap(index1, index2) {
+        [this.data[index1], this.data[index2]] = [this.data[index2], this.data[index1]];
     }
 }
 ```
@@ -114,3 +104,4 @@ class Heap{
 ## 题目来源[LeetCode](https://leetcode-cn.com/)
 - 剑指 Offer 40. 最小的k个数
 - 1046. 最后一块石头的重量
+- 703. 数据流中的第 K 大元素
