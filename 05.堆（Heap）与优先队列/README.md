@@ -40,12 +40,6 @@ class Heap {
             } else {
                 break;
             }
-            // if (this.data[index] > this.data[parentIndex]) {
-            //     this.swap(index, parentIndex);
-            //     index = parentIndex;
-            // } else {
-            //     break;
-            // }
         }
     }
     shift_down(index) {
@@ -58,16 +52,10 @@ class Heap {
             // 需要指向大值，初始为ind
             let findIndex = index
             // 比左子树小，更新为左子树的值
-            // if (this.data[findIndex] < this.data[leftIndex]) {
-            //     findIndex = leftIndex
-            // }
             if (this.comparator(this.data[leftIndex], this.data[findIndex])) {
                 findIndex = leftIndex
             }
             // 对右子树进行判断(先判断是否有右子树)
-            // if (rightIndex <= lastIndex && this.data[findIndex] < this.data[rightIndex]) {
-            //     findIndex = rightIndex
-            // }
             if (rightIndex <= lastIndex && this.comparator(this.data[rightIndex], this.data[findIndex])) {
                 findIndex = rightIndex
             }
@@ -106,3 +94,4 @@ class Heap {
 - 1046：最后一块石头的重量
 - 703：数据流中的第 K 大元素
 - 215：数组中的第K个最大元素
+- 373： 查找和最小的K对数字
