@@ -7,9 +7,9 @@ class Heap {
         this.count = 0
         this.comparator = (a, b) => {
             if (type == 'min') {
-                return (a[0]+a[1]) - (b[0+b[1]]) < 0
+                return a - b < 0
             }
-            return (a[0]+a[1]) -(b[0]+b[1])> 0
+            return a - b > 0
         }
     }
     shift_up(index) {
@@ -58,6 +58,7 @@ class Heap {
         this.swap(0, this.count - 1)
         this.count--
         this.shift_down(0)
+        return this.data.pop()
     }
     top() {
         return this.data[0]
@@ -69,20 +70,43 @@ class Heap {
         [this.data[index1], this.data[index2]] = [this.data[index2], this.data[index1]];
     }
 }
-var kSmallestPairs = function(nums1, nums2, k) {
-    let a = new Heap()
-    for(let i =0;i<nums1.length&&i<k;i++){
-        for(let j =0;j<nums2.length&&j<k;j++){
-            if(nums1[i]+nums2[j]>=(a.top[0]+a.top[1])){
-                break
-            }
-            a.push([nums1[i],nums2[j]])
-            if(a.size()>k){
-                a.pop()
-            }
-        }  
-    }
-    let res = a.data.slice(0,k)
-    res.sort((a,b)=>(a[0]+a[1])-(b[0]+b[1]))
-    return res 
+var MedianFinder = function() {
+    this.left = new Heap('max')
+    this.right = new Heap('min')
 };
+
+/** 
+ * @param {number} num
+ * @return {void}
+ */
+MedianFinder.prototype.addNum = function(num) {
+    if(this.left.size()==0||this.left.top()>=num){
+        this.left.push(num)
+    }else{
+        this.right.push(num)
+    }
+    if(this.right.size()>this.left.size()){
+        this.left.push(this.right.pop())
+    }
+    if(this.right.size()+2==this.left.size()){
+        this.right.push(this.left.pop())
+    }
+};
+
+/**
+ * @return {number}
+ */
+MedianFinder.prototype.findMedian = function() {
+    let n = this.left.size()+this.right.size()
+    if(n%2==0){
+        return (this.left.top()+this.right.top())/2   
+    }
+    return this.left.top()
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * var obj = new MedianFinder()
+ * obj.addNum(num)
+ * var param_2 = obj.findMedian()
+ */

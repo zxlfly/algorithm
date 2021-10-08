@@ -1,15 +1,21 @@
-class Heap {
+/**
+ * @param {number[][]} orders
+ * @return {number}
+ */
+ class Heap {
     /**
     * @param {string} type 堆的类型。默认大顶堆，min为小顶堆
     */
+    //实际后面的题目不是完全使用的这个堆，有的根据题目要求有改动
+    //主要在于pop方法和comparator方法
     constructor(type) {
         this.data = []
         this.count = 0
         this.comparator = (a, b) => {
             if (type == 'min') {
-                return (a[0]+a[1]) - (b[0+b[1]]) < 0
+                return a[0] - b[0] < 0
             }
-            return (a[0]+a[1]) -(b[0]+b[1])> 0
+            return a[0] - b[0] > 0
         }
     }
     shift_up(index) {
@@ -69,20 +75,52 @@ class Heap {
         [this.data[index1], this.data[index2]] = [this.data[index2], this.data[index1]];
     }
 }
-var kSmallestPairs = function(nums1, nums2, k) {
-    let a = new Heap()
-    for(let i =0;i<nums1.length&&i<k;i++){
-        for(let j =0;j<nums2.length&&j<k;j++){
-            if(nums1[i]+nums2[j]>=(a.top[0]+a.top[1])){
-                break
+var getNumberOfBacklogOrders = function(orders) {
+    let buy = new Heap()
+    let sell = new Heap('min')
+    let res = 0
+    for(order of orders){
+        if(order[2]==0){
+            while(order[1]>0&&sell.size()>0&&sell.top()[0]<=order[0]){
+               if(order[1]>sell.top()[1]){
+                    res = res - sell.top()[1]
+                    order[1]-=sell.top()[1]
+                    sell.pop()
+               }else if(order[1]==sell.top()[1]){
+                    res = res - order[1]
+                    sell.pop()
+                    order[1]=0
+               }else if(order[1]<sell.top()[1]){
+                    res = res - order[1]
+                    sell.top()[1]-=order[1]
+                    order[1]=0
+               }
             }
-            a.push([nums1[i],nums2[j]])
-            if(a.size()>k){
-                a.pop()
+            if(order[1] > 0){
+                buy.push(order)
+                res = res + order[1]
             }
-        }  
+        }else{
+            while(order[1]>0&&buy.size()>0&&buy.top()[0]>=order[0]){
+                if(order[1]>buy.top()[1]){
+                    res = res - buy.top()[1]
+                    order[1]-=buy.top()[1]
+                    buy.pop()
+                }else if(order[1]==buy.top()[1]){
+                    res = res - order[1]
+                    buy.pop()
+                    order[1]=0
+                }else if(order[1]<buy.top()[1]){
+                    res = res - order[1]
+                    buy.top()[1]-=order[1]
+                    order[1]=0
+                }
+            }
+            if(order[1] > 0){
+                sell.push(order)
+                res = res + order[1]
+            }
+        }
     }
-    let res = a.data.slice(0,k)
-    res.sort((a,b)=>(a[0]+a[1])-(b[0]+b[1]))
-    return res 
+    return res % 1000000007
 };

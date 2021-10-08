@@ -1,4 +1,8 @@
-class Heap {
+/**
+ * @param {number} n
+ * @return {number}
+ */
+ class Heap {
     /**
     * @param {string} type 堆的类型。默认大顶堆，min为小顶堆
     */
@@ -7,9 +11,9 @@ class Heap {
         this.count = 0
         this.comparator = (a, b) => {
             if (type == 'min') {
-                return (a[0]+a[1]) - (b[0+b[1]]) < 0
+                return a - b < 0
             }
-            return (a[0]+a[1]) -(b[0]+b[1])> 0
+            return a - b > 0
         }
     }
     shift_up(index) {
@@ -58,6 +62,7 @@ class Heap {
         this.swap(0, this.count - 1)
         this.count--
         this.shift_down(0)
+        this.data.pop()
     }
     top() {
         return this.data[0]
@@ -69,20 +74,23 @@ class Heap {
         [this.data[index1], this.data[index2]] = [this.data[index2], this.data[index1]];
     }
 }
-var kSmallestPairs = function(nums1, nums2, k) {
-    let a = new Heap()
-    for(let i =0;i<nums1.length&&i<k;i++){
-        for(let j =0;j<nums2.length&&j<k;j++){
-            if(nums1[i]+nums2[j]>=(a.top[0]+a.top[1])){
-                break
-            }
-            a.push([nums1[i],nums2[j]])
-            if(a.size()>k){
-                a.pop()
-            }
-        }  
+var nthUglyNumber = function(n) {
+    let a = new Heap('min')
+    a.push(1)
+    let res = 0
+    while(n--){
+        res = a.top()
+        a.pop()
+        if(res % 5 ==0){
+            a.push(res*5)
+        }else if(res %3 ==0){
+            a.push(res*5)
+            a.push(res*3)
+        }else{
+            a.push(res*5)
+            a.push(res*3)
+            a.push(res*2)
+        }
     }
-    let res = a.data.slice(0,k)
-    res.sort((a,b)=>(a[0]+a[1])-(b[0]+b[1]))
-    return res 
+    return res
 };
