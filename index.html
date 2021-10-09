@@ -1,3 +1,24 @@
 <script>
-
+function Shift_And(text,pattern){
+    // 记录每个字符出现的最后一个位置
+    let next ={}
+    for (let i = 0; i < pattern.length; i++) {
+        next[pattern[i]]=i
+    }
+    for (let i = 0; i+pattern.length <= text.length; i+=pattern.length-next[text[i+pattern.length]]) {
+        let status = 1
+        for (let j = 0; j < pattern.length; j++) {
+            if(text[i+j]==pattern[j]){
+                continue
+            }
+            status=0
+            break
+        }
+        if(status==1){
+            return i
+        }
+    }
+    return -1
+}
+console.log(Shift_And("aaacaaabcacadaaaab",'aaab'));
 </script>
