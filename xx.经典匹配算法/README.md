@@ -132,6 +132,23 @@ console.log(sunday("aaacaaabcacadaaaab",'aaab'));
       - 逆运算
         - 0^n=n
         - a^b=c a^c=b b^c=a
-
+```
+function Shift_And(text,pattern){
+   let map = []
+   let n 
+   for(n =0;pattern[n];n++){
+      map[pattern[n]] |= (1<<n)
+   } 
+   let p =0
+   for(let i=0;text[i];i++){
+      p=(p<<1|1)&map[text[i]]
+      if(p&(1<<(n-1))){
+         return i-n+1
+      }
+   }
+   return -1
+}
+console.log(Shift_And("aaacaaabcacadaaaab",'aaab'));
+```
 ## 题目来源[LeetCode](https://leetcode-cn.com/)
 - 
