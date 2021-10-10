@@ -97,7 +97,7 @@ function sunday(text,pattern){
 }
 console.log(sunday("aaacaaabcacadaaaab",'aaab'));
 ```
-- Shift-And
+- Shift-And(可以处理流数据，可以处理多模式串匹配)
   - 预处理模式串成二进制数据辅助表（每种字符出现的位置）
   - 由于字符串是从左到右从大到小和正常数字相反，所以处理之后的信息和正常数字是相反的，按照字符串的特点来的
     - 出现过的位置为1没有为0
