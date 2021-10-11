@@ -15,7 +15,7 @@ class Quick_Find {
    morge(a, b) {
       if (this.color[a] == this.color[b]) { return }
       let cb = this.color[b]
-      for (let i = 0; i < n; i++) {
+      for (let i = 0; i < this.color.length; i++) {
          if (this.color[i] == cb) {
             this.color[i] = this.color[a]
          }
@@ -163,3 +163,29 @@ class UnionSet {
 - 128： 最长连续序列
 - 947： 移除最多的同行或同列石头
 - 1202： 交换字符串中的元素
+- 721: 账户合并
+  - 这一题我最先想的是一个map解决，还可以少循环，但是不能通过所有用例
+  - 出现了合并错误的情况，且无法解决这种特定情况
+  - 这题还是得使用3个map
+  - **邮箱标记map（emailsToCount）用户名map（emailsToName）**
+    - 记录每个邮箱是第几个出现的
+    - 记录每个邮箱对应的用户名
+    - 不记录重复的
+    - 合并
+      - 通过邮箱数量创建并查集
+      - 遍历源数据
+      - 拿到第一个邮箱，获取emailsToCount中对应的标记
+      - 从下一个邮箱开始，获取标记
+      - 两者合并
+  - 通过邮箱数量创建并查集
+  - **根据邮箱生成的并查集中的根生成对应的map(rootToEamil)**
+    - 这个其实就已经分好邮箱了
+    - 还缺用户名
+  - **合并**
+    - 遍历rootToEamil的values
+    - sort一下
+    - 获取第一个邮箱对应的用户名
+    - 生成带用户名的邮箱数组
+  - return
+- 765: 情侣牵手
+- 685: 冗余连接 II

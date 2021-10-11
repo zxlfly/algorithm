@@ -1,49 +1,54 @@
 <script>
-    /**
-     * @param {number[][]} stones
-     * @return {number}
-     */
-    class UnionSet {
-        constructor(n) {
-            this.boss = []
-            this.count = []
-            for (let i = 0; i < n; i++) {
-                this.boss[i] = i
-                this.count[i] = 1
+/**
+ * @param {string[][]} accounts
+ * @return {string[][]}
+ */
+ class UnionSet {
+   constructor(n) {
+      this.boss = []
+      for (let i = 0; i < n; i++) {
+         this.boss[i] = i
+      }
+   }
+   get(x) {
+      return this.boss[x]=(this.boss[x]==x?x:this.get(this.boss[x]))
+   }
+   morge(a, b) {
+      this.boss[this.get(a)]=this.get(b)
+   }
+}
+var accountsMerge = function(accounts) {
+    let u = new UnionSet(accounts.length)
+    let map = new Map()
+    for(let i=0;i<accounts.length;i++){
+        let item = accounts[i]
+        for(let x=1;x<item.length;x++){
+            if(map.has(item[x])){
+                console.log(i,map.get(item[x]))
+                u.morge(i,map.get(item[x]))
+            }else{
+                map.set(item[x],i)
             }
         }
-        get(x) {
-            return this.boss[x] = (this.boss[x] == x ? x : this.get(this.boss[x]))
-        }
-        morge(a, b) {
-            if (this.get(a) == this.get(b)) { return }
-            this.count[this.get(b)] += this.boss[this.get(a)]
-            this.boss[this.get(a)] = this.get(b)
-        }
-
     }
-    var removeStones = function (stones) {
-        let u = new UnionSet(stones.length)
-        let mapx = new Map()
-        let mapy = new Map()
-        for (let i = 0; i < stones.length; i++) {
-            let x = stones[i]
-            if (mapx.has(x[0])) {
-                u.morge(i, mapx.get(x[0]))
-            }
-            if (mapy.has(x[1])) {
-                u.morge(i, mapy.get(x[1]))
-            }
-            mapx.set(x[0], i)
-            mapy.set(x[1], i)
+    let ret = new Map()
+    for(let i =0;i<accounts.length;i++){
+        if(!ret.has(u.get(i))){
+            ret.set(i,new Array(1).fill(accounts[i][0]))
         }
-        let res = 0
-        for (let i = 0; i < stones.length; i++) {
-            if (u.get(i) == i) {
-                res++
-            }
-        }
-        return stones.length - res
-    };
-    console.log(removeStones([[0,1],[1,0],[1,1]]))
+        let arr = ret.get(u.get(i))||[]
+        arr=arr.concat(accounts[i].slice(1))
+        arr = Array.from(new Set(arr)).sort()
+        console.log("arr:",arr);
+        ret.set(u.get(i),arr)
+    }
+    return Array.from(ret.values())
+};
+console.log(accountsMerge([
+    ["David","David0@m.co","David1@m.co"],
+    ["David","David3@m.co","David4@m.co"],
+    ["David","David4@m.co","David5@m.co"],
+    ["David","David2@m.co","David3@m.co"],
+    ["David","David1@m.co","David2@m.co"]
+    ]));
 </script>

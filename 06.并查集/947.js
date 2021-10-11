@@ -1,8 +1,9 @@
+
 /**
     * @param {number[][]} stones
     * @return {number}
     */
- class UnionSet {
+class UnionSet {
     constructor(n) {
         this.boss = []
         this.count = []
