@@ -1,6 +1,4 @@
-<script>
-    let arr = [3, 1, 4, 5, 9, 10]
-    /**
+/**
  * @param {number[]} nums
  * @return {number[]}
  */
@@ -22,5 +20,3 @@
     }while(x<=y)
     return nums
 };
-console.log(exchange(arr));
-</script>
