@@ -1,26 +1,12 @@
 <script>
-    let arr = [3, 1, 4, 5, 9, 10]
-    /**
- * @param {number[]} nums
- * @return {number[]}
- */
- var exchange = function(nums) {
-    if(nums.length<=1){return nums}
-    let x = 0,y=nums.length-1
-    do{
-        while(x<y+1&&nums[x]%2){
-            x++
-        }
-        while(y>=0&&nums[y]%2==0){
-            y--
-        }
-        if(x<=y){
-            [[nums[x]],[nums[y]]]=[[nums[y]],[nums[x]]]
-            x++
-            y--
-        }
-    }while(x<=y)
-    return nums
-};
-console.log(exchange(arr));
+    let i = left;
+    let l = mid + 1;
+    let r = mid + 1;
+    while (i <= mid) {
+        while (l <= right && sum[l] - sum[i] < lower) l++;
+        while (r <= right && sum[r] - sum[i] <= upper) r++;
+        ret += (r - l);
+        i++;
+    }
+
 </script>
