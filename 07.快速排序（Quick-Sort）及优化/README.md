@@ -8,47 +8,53 @@
 ```
     function QuickSort(arr, l, r) {
         if (l >= r) { return }
+        let x = l,y=r
         let base = arr[l]
-        while (l < r) {
+        while (x < y) {
             // 右边找到小的
-            while (l < r && arr[r] >= base) {
-                r--
+            while (x < y && arr[y] >= base) {
+                y--
             }
             //放到原来基准值的位置，右边就空了一个位置
-            if (l < r) {
-                arr[l]=arr[r]
+            if (x < y) {
+                arr[x]=arr[y]
             }
             // 左边找到大的
-            while (l < r && arr[l] < base) {
-                l++
+            while (x < y && arr[x] < base) {
+                x++
             }
             //放到右边空的位置
-            if (l < r) {
-                arr[r]=arr[l]
+            if (x < y) {
+                arr[y]=arr[x]
             }
         }
-        arr[l] =base 
-        QuickSort(arr, l, l - 1)
-        QuickSort(arr, l + 1, r)
+        arr[x] =base 
+        QuickSort(arr, l, x - 1)
+        QuickSort(arr, x + 1, r)
     }
 ```
 ## 单边递归进行优化
 ```
     function QuickSort(arr, l, r) {
-        if (l >= r) { return }
+        // 每一次遍历之后，xy相交，将新的r设置到左半区，即r=x-1
+        // 右半区还是递归
+        // 这样左半区就由递归变成了循环
         while (l < r) {
-            let base = arr[l]
+            let x=l,y=r
+            let base = arr[x]
             do {
-                while (arr[l] < base) { l++ }
-                while (arr[r] > base) { r-- }
+                while (arr[x] < base) { x++ }
+                while (arr[y] > base) { y-- }
                 //就不找一个换一个了，直接找到一大一小的交换
-                if (l <= r) {
-                    [arr[l], arr[r]] = [arr[r], arr[l]]
-                    l++
-                    r--
+                if (x <= y) {
+                    [arr[x], arr[y]] = [arr[y], arr[x]]
+                    x++
+                    y--
                 }
-            } while (l < r)
-            QuickSort(arr, l, r)
+            } while (x <= y)
+            arr[x]=base
+            QuickSort(arr, x+1, r)
+            r=x-1
         }
     }
 ```
@@ -73,18 +79,19 @@
     function QuickSort(arr, l, r) {
         if (l >= r) { return }
         while (r - l > threshold) {
-            let base = getMid(arr[l], arr[r], arr[(l + r)>>2])
+            let x =l,y=r
+            let base = getMid(arr[x], arr[y], arr[(x + y)>>2])
             do {
-                while (arr[l] < base) { l++ }
-                while (arr[r] > base) { r-- }
-                if (l <= r) {
-                    [arr[l], arr[r]] = [arr[r], arr[l]]
-                    l++
-                    r--
+                while (arr[x] < base) { x++ }
+                while (arr[y] > base) { y-- }
+                if (x <= y) {
+                    [arr[x], arr[y]] = [arr[y], arr[x]]
+                    x++
+                    y--
                 }
-            } while (l <= r)
-            QuickSort(arr, l + 1, r)
-            r = r
+            } while (x <= y)
+            QuickSort(arr, x + 1, r)
+            r = x-1
         }
     }
     function insertion_sort(arr,l,r) {
@@ -124,7 +131,6 @@
 ## 题目来源[LeetCode](https://leetcode-cn.com/)
 - 912： 排序数组
 - 剑指 Offer 21： 调整数组顺序使奇数位于偶数前面
-- 148： 排序链表
 - 75： 颜色分类
 - 面试题 17.14： 最小K个数
 - 95： 不同的二叉搜索树 II

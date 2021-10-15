@@ -2,23 +2,23 @@
  * @param {number[]} nums
  * @return {number[]}
  */
-// 直接使用数组自带的sort会更快，这里使用的是自己实现的快排
  const threshold = 16
  function QuickSort(arr, l, r) {
      if (l >= r) { return }
      while (r - l > threshold) {
-         let base = getMid(arr[l], arr[r], arr[(l + r)>>2])
+         let x =l,y=r
+         let base = getMid(arr[x], arr[y], arr[(x + y)>>2])
          do {
-             while (arr[l] < base) { l++ }
-             while (arr[r] > base) { r-- }
-             if (l <= r) {
-                 [arr[l], arr[r]] = [arr[r], arr[l]]
-                 l++
-                 r--
+             while (arr[x] < base) { x++ }
+             while (arr[y] > base) { y-- }
+             if (x <= y) {
+                 [arr[x], arr[y]] = [arr[y], arr[x]]
+                 x++
+                 y--
              }
-         } while (l <= r)
-         QuickSort(arr, l + 1, r)
-         r = r
+         } while (x <= y)
+         QuickSort(arr, x + 1, r)
+         r = x-1
      }
  }
  function insertion_sort(arr,l,r) {

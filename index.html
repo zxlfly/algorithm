@@ -1,41 +1,19 @@
 <script>
-    let arr = [98491,5156,15641,651,561,561,561,65165,4165,1561651]
-    // 对整型正数排序
-    // 转换成二进制为32位
-    // 将后16位作为低位，前16位作为高位
-    // 16位二进制可表示最大数字为65536
-    function radix_sort(arr, len) {
-        let count = new Array(65536).fill(0)
-        let temp = new Array(len)
-        // 低位排序
-        for (let i = 0; i < len; i++) {
-            // 计数
-            count[arr[i]&0xffff]+=1
-        }
-        // 求前缀和
-        for (let i = 1; i < 65536; i++) {
-            count[i]+=count[i-1]     
-        }
-        // 逆序遍历
-        for (let i = len-1; i >= 0; i--) {
-            temp[--count[arr[i]&0xffff]]=arr[i]
-        }
-        // 高位排序
-        count = new Array(65536).fill(0)
-        // 高位排序
-        for (let i = 0; i < len; i++) {
-            // 计数
-            count[(temp[i]&0xffff0000)>>16]+=1
-        }
-        // 求前缀和
-        for (let i = 1; i < 65536; i++) {
-            count[i]+=count[i-1]     
-        }
-        // 逆序遍历
-        for (let i = len-1; i >= 0; i--) {
-            arr[--count[(temp[i]&0xffff0000)>>16]]=temp[i]
-        }
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number[]}
+ */
+ var maxSlidingWindow = function(nums, k) {
+    let l = 0
+    let r =k-1
+    let res = []
+    while(r<=nums.length-1){
+        let temp = nums.slice(l,r+1)
+        res.push(Math.max(...temp))
+        l++
+        r++
     }
-    radix_sort(arr,arr.length)
-    console.log(arr);
+    return res
+};
 </script>
