@@ -5,7 +5,7 @@
  * @param {number} right
  * @return {number}
  */
-// 以每一项开始的递加是有序的，所以可以使用优先队列来做，多路归并
+// todo：以每一项开始的递加是有序的，所以可以使用优先队列来做，多路归并
  var rangeSum = function(nums, n, left, right) {
     for(let i =0;i<n;i++){
         j=i+1

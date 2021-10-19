@@ -1,4 +1,3 @@
-<script>
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -12,6 +11,7 @@
  * @return {number}
  */
  var deepestLeavesSum = function(root) {
+    //  记录最大深度  和
     let maxind=0,res=0
     function dfs(root,ind){
         if(root==null){return}
@@ -25,7 +25,6 @@
         dfs(root.left,ind+1)
         dfs(root.right,ind+1)
     }
+    dfs(root,1)
     return res
 };
-console.log(deepestLeavesSum([1,2,3,4,5,null,6,7,null,null,null,null,8]));
-</script>
