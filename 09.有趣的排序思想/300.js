@@ -1,9 +1,9 @@
-<script>
 /**
  * @param {number[]} nums
  * @return {number}
  */
  var lengthOfLIS = function(nums) {
+    if(nums.length<2){return 1}
     // 初始每个值对应的长度都为1
     let arr =new Array(nums.length).fill(1)
     // 后面的和前面的比价
@@ -18,5 +18,3 @@
     }
     return max
 };
-console.log(lengthOfLIS([0,1,0,3,2,3]));
-</script>
