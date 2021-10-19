@@ -1,4 +1,3 @@
-<script>
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -11,7 +10,7 @@
  * @param {number} sum
  * @return {number}
  */
- function getPathSum(root ,sum){
+function getPathSum(root ,sum){
     if(root==null)return 0
     let val = sum - root.val
     return (root.val==sum) + getPathSum(root.left,val)+getPathSum(root.right,val)
@@ -21,5 +20,3 @@
     // 分选这当前节点，和不选的情况
     return getPathSum(root,sum)+pathSum(root.left,sum)+pathSum(root.right,sum)
 };
-console.log(pathSum([5,4,8,11,null,13,4,7,2,null,null,5,1]));
-</script>
