@@ -1,4 +1,3 @@
-<script>
 /**
  * @param {number[]} nums
  * @param {number} x
@@ -38,5 +37,3 @@ var minOperations = function(nums, x) {
     }
     return res
 };
-console.log(minOperations([3,2,20,1,1,3],10));
-</script>
