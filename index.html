@@ -1,37 +1,47 @@
 <script>
 /**
- * @param {number[]} nums
- * @param {number} target
- * @return {boolean}
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
  */
- var search = function(nums, target) {
-    if(nums.length==0){return false}
-    if(nums.length==1){return nums[0]==target}
-    if(nums[0]==target||nums[nums.length-1]==target){return true}
-    // 在出现前后多位相同时会有边界情况
-    let head =0,tail=nums.length-1,mid
-    while(head<nums.length&&nums[head]==nums[0])head++
-    while(tail>=0&&nums[tail]==nums[0])tail--
-    while(head<=tail){
-        mid=(head+tail)>>1
-        if(nums[mid]==target){return true}
-        if(nums[mid]<=nums[tail]){
-            // target在mid-tail这个区间
-            if(target>nums[mid]&&target<=nums[tail]){
-                head=mid+1
-            }else{
-                tail=mid-1
-            }
-        }else{
-            // target在head-mid这个区间
-            if(target<nums[mid]&&target>=nums[head]){
-                tail=mid-1
-            }else{
-                head=mid+1
-            }
+
+ var findMedianSortedArrays = function (nums1, nums2) {
+    let n = nums1.length
+    let m = nums2.length
+    // 加一是为了取中间数，不然下取整取的不对,对偶数没影响
+    let mid = (m + n + 1 )>>1
+    // 基数
+    let a = bsearch(nums1, nums2,0,0, mid)
+    if((m+n)%2==1){return a}
+    // 偶数 
+    // 需要中间两个 所以+1
+    let b = bsearch(nums1, nums2,0,0, mid+1)
+    return (a+b)/2
+    // 需要递归调用 所以传入下标
+    function bsearch(nums1, nums2,i,j,k){
+        // 某个数组空了，剩下的个数取另一个没空的数组的值
+        if(nums1.length==i){
+            return nums2[j+k-1]
         }
+        if(nums2.length==j){
+            return nums1[i+k-1]
+        }
+        // 还差一个  那就比下开头的值
+        if(k==1){
+            return nums1[i]<nums2[j]?nums1[i]:nums2[j]
+        }
+        // 正常情况
+        // 第一个取a个  可能存在数量不够的情况
+        let a = Math.min(k>>1,nums1.length-i)
+        // 第二个取b个  也可能不够
+        let b = Math.min(k-a,nums2.length-j)
+        a = k-b
+        // 说明第一个数组的前半段a个元素可以排除了
+        if(nums1[i+a-1]<=nums2[j+b-1]){
+            return bsearch(nums1, nums2,i+a,j,k-a)
+        }
+        return bsearch(nums1, nums2,i,j+b,k-b)
     }
-    return false
 };
-console.log(search([1,1,1,1,1,1,1,1,1,1,1,1,1,2,1],2));
+console.log(findMedianSortedArrays([1,2],[3,4]));
 </script>

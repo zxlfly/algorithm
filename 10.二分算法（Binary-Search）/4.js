@@ -4,26 +4,41 @@
  * @return {number}
  */
 
-var findMedianSortedArrays = function (nums1, nums2) {
-    // 如果长度不相等默认nums1是长的
-    if (nums1.length < nums2.length) {
-        [nums1, nums2] = [nums2, nums1]
-    }
-    let m = nums1.length
-    let n = nums2.length
-    let total = m + n
-    // 奇数
-    if (total % 2 == 1) {
-        // 中间的正好
-        return bsearch(nums1, nums2, total >> 1 + 1)
-    } else {
-        // 偶数，中位数在total>>1+1和total>>1之间
-        return (bsearch(nums1, nums2, total >> 1) + bsearch(nums1, nums2, total >> 1 + 1)) / 2
-    }
-    function bsearch(nums1, nums2, k) {
-        let ind1 =0, ind2 = 0,half
-        while (true) {
-            half=k/2
+ var findMedianSortedArrays = function (nums1, nums2) {
+    let n = nums1.length
+    let m = nums2.length
+    // 加一是为了取中间数，不然下取整取的不对,对偶数没影响
+    let mid = (m + n + 1 )>>1
+    // 基数
+    let a = bsearch(nums1, nums2,0,0, mid)
+    if((m+n)%2==1){return a}
+    // 偶数 
+    // 需要中间两个 所以+1
+    let b = bsearch(nums1, nums2,0,0, mid+1)
+    return (a+b)/2
+    // 需要递归调用 所以传入下标
+    function bsearch(nums1, nums2,i,j,k){
+        // 某个数组空了，剩下的个数取另一个没空的数组的值
+        if(nums1.length==i){
+            return nums2[j+k-1]
         }
+        if(nums2.length==j){
+            return nums1[i+k-1]
+        }
+        // 还差一个  那就比下开头的值
+        if(k==1){
+            return nums1[i]<nums2[j]?nums1[i]:nums2[j]
+        }
+        // 正常情况
+        // 第一个取a个  可能存在数量不够的情况
+        let a = Math.min(k>>1,nums1.length-i)
+        // 第二个取b个  也可能不够
+        let b = Math.min(k-a,nums2.length-j)
+        a = k-b
+        // 说明第一个数组的前半段a个元素可以排除了
+        if(nums1[i+a-1]<=nums2[j+b-1]){
+            return bsearch(nums1, nums2,i+a,j,k-a)
+        }
+        return bsearch(nums1, nums2,i,j+b,k-b)
     }
 };
