@@ -3,7 +3,10 @@
  * @param {number[]} nums2
  * @return {number}
  */
-
+// 总的思路就是各取一半，对比两个数组取到的最大值（设为a，b）
+// 如果a<=b,那么第一个数组从第一个开始到a在内的元素都不是目标元素，缩小目标区间
+// 如果a>=b，那么第二个数组从第一个开始到b在内的元素都不是目标元素，缩小目标区间
+//每一次缩小k/2个 （k为中位数）
  var findMedianSortedArrays = function (nums1, nums2) {
     let n = nums1.length
     let m = nums2.length
