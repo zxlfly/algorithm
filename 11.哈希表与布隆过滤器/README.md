@@ -120,6 +120,7 @@ class HashTable{
 ```
 ### 链式地址发（拉链发）
 ```
+//不用链表记录用数组也是可以的
 class Node{
     constructor(data=null,next=null){
         this.data=data
@@ -190,4 +191,9 @@ class HashTable{
 通常使用在大数据量的场景，信息安全有要求的场景。
 
 ## 题目来源[LeetCode](https://leetcode-cn.com/)
-
+- 705： 设计哈希集合
+- 706:  设计哈希映射
+- 面试题 16.25: LRU 缓存
+  - 哈希链表
+  - 这题不是使用链表也可以 代码量更少
+- 535：TinyURL 的加密与解密
