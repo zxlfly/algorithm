@@ -1,76 +1,54 @@
 <script>
-    function dfs(root,c,k,res){
-    if(k<0){return}
-    if(root==null){return}
-    if(c==k){
-        res.push(root.val)
-        return
+/**
+ * @param {character[][]} board
+ * @return {void} Do not return anything, modify board in-place instead.
+ */
+// 找到边界的O
+// 与边界O相邻的O不会被包围
+// 其他的全部是X
+class Node{
+    constructor(i,j){
+        this.i=i
+        this.j=j
     }
-    dfs(root.left,c+1,k,res)
-    dfs(root.right,c+1,k,res)
 }
-function getRes(root,target,k,res){
-    if(root==null){return null}
-    if(root==target){
-        dfs(root,0,k,res)
-        return root
-    }
-    if(getRes(root.left,target,k,res)){
-        k-=1//回溯-1
-        if(k==0){
-            res.push(root.val)
-        }
-        // 说明目标在左子树
-        // 处理右子树
-        dfs(root.right,0,k-1,res)
-    }else if(getRes(root.right,target,k,res)){
-        k-=1//回溯-1
-        if(k==0){
-            res.push(root.val)
-        }
-        //相反
-        dfs(root.left,0,k-1,res)
-    }
-    return null
-}
- var distanceK = function(root, target, k) {
+var solve = function (board) {
+    let q = []
     let res = []
-    getRes(root,target,k,res)
+    let map = new Set()
+    let n =board.length
+    let m =board[0].length
+    for(let i =0;i<n;i++){
+        res.push([])
+        for(let j =0;j<m;j++){
+            res[i][j]="X"
+            if(i==0||i==n-1||j==0||j==m-1){
+                if(board[i][j]=="O"){
+                    res[i][j]="O"
+                    map.add(i*n+j)
+                    q.push(new Node(i,j))
+                }
+            }
+        }
+    }
+    let dir = [[0,-1],[0,1],[1,0],[-1,0]]
+    while (q.length) {
+        let cur = q.shift()
+        for(let i=0;i<4;i++){
+            let x = cur.i+dir[i][0]
+            let y = cur.j+dir[i][1]
+            if(x<0||x>=n||y<0||y>=m)continue
+            if(map.has(x*n+y))continue
+            if(board[x][y]=='X')continue
+            q.push(new Node(x,y))
+            res[x][y]="O"
+            map.add(x*n+y)
+            console.log(x,y);
+        }
+    }
     return res
 };
-    class Node {
-        constructor(val, left, right) {
-            this.left = left
-            this.right = right
-            this.val = val
-        }
-    }
-    let head = new Node(0)
-    let fl1 = new Node(2)
-    let fr1 = new Node(1)
-    let fr2 = new Node(3)
-    head.left = fl1
-    head.right = fr1
-    fr1.left = fr2
-
-
-    let head2 = new Node(3)
-    let l1 = new Node(5)
-    let l1l1 = new Node(6)
-    let l1r1 = new Node(2)
-    let l1r1l1 = new Node(7)
-    let l1r1r1 = new Node(4)
-    let r1 = new Node(1)
-    let r1l1 = new Node(0)
-    let r1r1 = new Node(8)
-    head2.left = l1
-    l1.left = l1l1
-    l1.right = l1r1
-    l1r1.left = l1r1l1
-    l1r1.right = l1r1r1
-    head2.right = r1
-    r1.left = r1l1
-    r1.right = r1r1
-    console.log(distanceK(head, fr2, 3));
-    // console.log(distanceK(head2, l1, 2));
+console.log(solve([["X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"],["X","X","X","X","X","X","X","X","X","O","O","O","X","X","X","X","X","X","X","X"],["X","X","X","X","X","O","O","O","X","O","X","O","X","X","X","X","X","X","X","X"],["X","X","X","X","X","O","X","O","X","O","X","O","O","O","X","X","X","X","X","X"],["X","X","X","X","X","O","X","O","O","O","X","X","X","X","X","X","X","X","X","X"],["X","X","X","X","X","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X"]]));
 </script>
+
+
