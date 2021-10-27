@@ -1,4 +1,3 @@
-<script>
 /**
  * @param {number} n
  * @return {string[][]}
@@ -49,5 +48,3 @@
     dfs(0)
     return res
 };
-console.log(solveNQueens(4));
-</script>
