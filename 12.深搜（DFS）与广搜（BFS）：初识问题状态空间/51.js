@@ -29,6 +29,7 @@
         }
         for (let col = 0; col < n; col++) {
             //如果当前所在列和对角线没有皇后，可以放或者跳过
+            //对角满足差相等或者和相等 就是对角
             if(!lie.has(col)&&!x1.has(row+col)&&!x2.has(row-col)){
                 board[row][col]="Q"
                 // 记录
