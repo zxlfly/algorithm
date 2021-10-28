@@ -151,4 +151,5 @@ function Shift_And(text,pattern){
 console.log(Shift_And("aaacaaabcacadaaaab",'aaab'));
 ```
 ## 题目来源[LeetCode](https://leetcode-cn.com/)
-- 
+- 44：通配符匹配
+- 10: 正则表达式匹配

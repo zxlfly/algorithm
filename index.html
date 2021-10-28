@@ -1,54 +1,20 @@
 <script>
 /**
- * @param {number} n
- * @return {string[][]}
+ * @param {number[]} height
+ * @return {number}
  */
- var solveNQueens = function(n) {
-    if(n==1){return [["Q"]]}
-    let res = []
-    // 棋盘
-    let board =[]
-    for (let i = 0; i < n; i++) {
-        board.push([])
-        for (let j = 0; j < n; j++) {
-            board[i].push('.')
+ var trap = function(height) {
+    let res = 0
+    let s =[]
+    for(let i=0;i<height.length;i++){
+        while(s.length){
+            let now = s.pop()
+            if(s.length==0)continue
+            res+=Math.min((height[i]-height[now]),(height[s[s.length-1]]-height[now]))*(i-1-s[s.length-1])
         }
+        s.push(i)
     }
-    // 皇后所在的列
-    let lie = new Set()
-    // 斜线(正反)
-    let x1 = new Set()
-    let x2 = new Set()
-    function dfs(row){
-        if(row==n){
-            let clone = board.slice()
-            for(let i=0;i<n;i++){
-                clone[i]=clone[i].join('')
-            }
-            res.push(clone)
-            return
-        }
-        for (let col = 0; col < n; col++) {
-            //如果当前所在列和对角线没有皇后，可以放或者跳过
-            //对角满足差相等或者和相等 就是对角
-            if(!lie.has(col)&&!x1.has(row+col)&&!x2.has(row-col)){
-                board[row][col]="Q"
-                // 记录
-                lie.add(col)
-                x1.add(row+col)
-                x2.add(row-col)
-                // 放置
-                dfs(row+1)
-                // 回溯的时候撤销
-                board[row][col]="."
-                lie.delete(col)
-                x1.delete(row+col)
-                x2.delete(row-col)
-            }
-        }
-    }
-    dfs(0)
     return res
 };
-console.log(solveNQueens(4));
+console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1]));
 </script>

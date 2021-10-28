@@ -3,3 +3,4 @@
 
 ## 题目来源[LeetCode](https://leetcode-cn.com/)
 - 155：最小栈
+- 42：接雨水
