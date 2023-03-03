@@ -24,6 +24,7 @@ function merge_sort(arr,l,r){
     }
     // 如果只是数组可以使用数组的splice替换排序之后的
     for(let i =l;i<=r;i++){
+      //h下标是从0开始的所有需要i-l
         arr[i]=h[i-l]
     }
 }

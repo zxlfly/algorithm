@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="d1">
+    d1
+    <div id="d2">
+      d2
+      <div id="d3">
+        d3
+        <style>
+          #d4 {
+            color: blue;
+          }
+        </style>
+        <div style="display: none;" id="d4">
+          d4
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    "use strict";
+    var obj = {};
+    Object.defineProperty(obj, "x", { value: 0, writable: false });
+
+    obj.x = 3.14;
+    // var d1 = document.querySelector("#d1")
+    // console.log(d1.innerHTML);
+    // console.log(d1.innerText);
+    // console.log(d1.textContent);
+  </script>
+</body>
+
+</html>
